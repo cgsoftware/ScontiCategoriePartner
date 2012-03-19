@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Tree View  Numeri Progressivi Documenti -->
+        
+        <record id="sconti_partner_view_tree" model="ir.ui.view">
+            <field name="name">sconti_partner.tree</field>
+            <field name="model">sconti_partner</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Fasce di Sconto Doc. di Vendita">
+                    <field name="name" select="1"/>
+                    <field name="descriz" select="1"/>
+                    <field name="sconto_base_partner"/>
+                    
+                </tree>
+            </field>
+        </record>
+
+        <record id="sconti_partner_view_form" model="ir.ui.view">
+            <field name="name">sconti_partner.form</field>
+            <field name="model">sconti_partner</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Fasce di Sconto Doc. di Vendita">
+                    <group col="6" colspan="4">
+                    <field name="name"/>
+                    <field name="descriz" />
+                    <newline/>
+                    <field name="sconto_base_partner" />
+                    <field name="perc_provv"/>
+                   </group>     
+                    <newline/>
+
+                     <notebook>
+		               <page string="Fasce di Fatturato">
+
+                       	<separator string="Fasce di Fatturato" colspan="4"/>
+                    <field name="righe_fasce" nolabel="1" mode="tree,form" string="Fasce di Fatturato">
+                        <tree editable="top"  string="Elenco Fasce">
+                            <field name="da_importo" size='100' />
+                            <field name="a_importo" size='100'/>
+                            <field name="sconto_fascia_partner" />	                				
+                        </tree>
+                        <form>
+                            <field name="da_importo" size='100' />
+                            <field name="a_importo" size='100'/>
+                            <field name="sconto_fascia_partner" />	                				
+                        </form>
+                        
+                    </field>
+                     </page>
+                     <page  string="Categorie Escluse">
+                    <field name="categ_escluse" nolabel="1" mode="tree,form" string="Fasce di Fatturato">
+                        <tree editable="top"  string="Elenco Categorie">
+                            <field name="categ_id" size='100' />
+                        </tree>
+                        <form>
+                            <field name="categ_id" size='100' />
+                        </form>
+                     </field>
+                     </page>
+                        </notebook>                                       
+                </form>
+            </field>
+        </record>
+        
+      
+        <record id="action_sconti_partner" model="ir.actions.act_window">
+            <field name="name">Fasce di Sconto</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sconti_partner</field>
+		<field name="view_mode">tree,form</field>
+        </record>
+        
+        <!--  Menù Numeri Progressivi Documenti -->
+
+        <menuitem action="action_sconti_partner" id="menu_fasce_sconto" parent="base.menu_config_address_book"/>        
+        
+        <record model="ir.ui.view" id="res_partner_scfascia_form">
+            <field name="name">res.partner.scfascia.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="ItalianFiscalDocument.res_partner_datifido_form"/>
+                <field name="arch" type="xml">
+
+	              					<field name="str_sconto_partner" position="replace"> 
+	              					</field>
+	                				<field name="sconto_partner" position = "before">
+	                					     <field name="fascia_sconto" ></field>
+	                					     <field name="data_elab_sconto" ></field>
+	                					                				
+	                				</field>	      
+
+
+		  </field>
+        </record>        
+        
+
+</data>
+    
+    
+</openerp>        
