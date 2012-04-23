@@ -27,7 +27,7 @@
     """,
     'author': 'C & G Software',
     "depends" : ['base', 'sale','product','ItalianFiscalDocument'],
-    "update_xml" : [ 'ScPartner.xml', 'wizard/CalcSconti.xml'
+    "update_xml" : [ 'ScPartner.xml', 'wizard/CalcSconti.xml','security/ir.model.access.csv'
                    ],
                     
     'website': 'http://www.cgsoftware.it',

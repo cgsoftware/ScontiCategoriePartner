@@ -14,8 +14,8 @@ class sconti_partner(osv.osv):
         _name = "sconti_partner"
         _description = "Fasce di Sconto Per Fatturato Partner"    
         _columns = {
-                    'name':fields.char('Codice Sconto', size=5, required=True, translate=True),
-                    'descriz':fields.char('Descrizione', size=25, translate=True),
+                    'name':fields.char('Codice Sconto', size=15, required=True, translate=True),
+                    'descriz':fields.char('Descrizione', size=30, translate=True),
                     'sconto_base_partner':fields.float('Sconto Base Partner', digits=(9, 3)),
                     'perc_provv':fields.float('Perc. Provvigione Agente', digits=(9, 3)),
                     'righe_fasce':fields.one2many('sconti_partner_righe', 'name', 'Fasce'),
@@ -79,9 +79,12 @@ FiscalDocHeader()
 class FiscalDocRighe(osv.osv):
    _inherit = "fiscaldoc.righe"
    
-   def onchange_articolo(self, cr, uid, ids, product_id, listino_id, qty, partner_id, data_doc, uom):
-    res = super(FiscalDocRighe,self).onchange_articolo(cr, uid, ids, product_id, listino_id, qty, partner_id, data_doc, uom)
+   def onchange_articolo(self, cr, uid, ids, product_id, listino_id, qty, partner_id, data_doc, uom,context):
+    res = super(FiscalDocRighe,self).onchange_articolo(cr, uid, ids, product_id, listino_id, qty, partner_id, data_doc, uom,context)
     v = res.get('value',False)
+    domain = res.get('domain',False)
+    warning = res.get('warning',False)
+    
     #import pdb;pdb.set_trace()
     if v: 
      if partner_id:
@@ -93,7 +96,7 @@ class FiscalDocRighe(osv.osv):
             v['totale_riga'] = self.totale_riga(cr,uid,qty, v['prezzo_netto'])   
             
             
-    return {'value':v}    
+    return {'value': v, 'domain': domain, 'warning': warning}    
        
 
 FiscalDocRighe()
