@@ -26,6 +26,7 @@
                     <group col="6" colspan="4">
                     <field name="name"/>
                     <field name="descriz" />
+                    <field name="tipo" />
                     <newline/>
                     <field name="sconto_base_partner" />
                     <field name="perc_provv"/>
@@ -36,7 +37,7 @@
 		               <page string="Fasce di Fatturato">
 
                        	<separator string="Fasce di Fatturato" colspan="4"/>
-                    <field name="righe_fasce" nolabel="1" mode="tree,form" string="Fasce di Fatturato">
+                    <field name="righe_fasce" nolabel="1" mode="tree,form" string="Fasce di Fatturato" attrs="{'readonly':[('tipo', '=', 'CA')]}" >
                         <tree editable="top"  string="Elenco Fasce">
                             <field name="da_importo" size='100' />
                             <field name="a_importo" size='100'/>
@@ -50,8 +51,8 @@
                         
                     </field>
                      </page>
-                     <page  string="Categorie Escluse">
-                    <field name="categ_escluse" nolabel="1" mode="tree,form" string="Fasce di Fatturato">
+                     <page  string="Categorie incluse">
+                    <field name="categ_sconti_incluse" nolabel="1" mode="tree,form" string="Fasce di Fatturato" attrs="{'readonly':[('tipo', '=', 'CA')]}">
                         <tree editable="top"  string="Elenco Categorie">
                             <field name="categ_id" size='100' />
                         </tree>
@@ -60,6 +61,24 @@
                         </form>
                      </field>
                      </page>
+                     
+                     <page  string="Sconti x Categoria">
+                    <field name="categ_sconti" nolabel="1" mode="tree,form" string="Sconti x Categoria" attrs="{'readonly':[('tipo', '=', 'FA')]}">
+                        <tree editable="top"  string="Elenco Sconti Per Categorie">
+                            <field name="categ_id" size='100' />
+                            <field name="sconti_riga_cat" size='100' />
+                            <field name="sconto_cat" size='100' />
+                            <field name="perc_cat_provv" size='100' />
+                        </tree>
+                        <form>
+                            <field name="categ_id" size='100' />
+                            <field name="sconti_riga_cat" size='100' />
+                            <field name="sconto_cat" size='100' />
+                            <field name="perc_cat_provv" size='100' />
+                        </form>
+                     </field>
+                     </page>
+                     
                         </notebook>                                       
                 </form>
             </field>

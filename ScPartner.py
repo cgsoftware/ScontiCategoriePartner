@@ -16,10 +16,15 @@ class sconti_partner(osv.osv):
         _columns = {
                     'name':fields.char('Codice Sconto', size=15, required=True, translate=True),
                     'descriz':fields.char('Descrizione', size=30, translate=True),
+                    'tipo':fields.selection([
+                        ('FA','Sconti per Fascia'),
+                        ('CA','Sconti per Categoria'),
+                         ],    'Tipo Sconti', select=True, readonly=False),
                     'sconto_base_partner':fields.float('Sconto Base Partner', digits=(9, 3)),
                     'perc_provv':fields.float('Perc. Provvigione Agente', digits=(9, 3)),
                     'righe_fasce':fields.one2many('sconti_partner_righe', 'name', 'Fasce'),
-                    'categ_escluse':fields.one2many('sconti_categ_escluse', 'name', 'Categorie Escluse'),
+                    'categ_sconti':fields.one2many('sconti_categ', 'name', 'Sconti x Categoria'),
+                    'categ_sconti_incluse':fields.one2many('sconti_categ_incluse', 'name', ' Categoria Incluse'),
                     }
 sconti_partner()
 
@@ -35,14 +40,28 @@ class sconti_partner_righe(osv.osv):
 sconti_partner_righe()
 
 
-class sconti_categ_escluse(osv.osv):
-        _name = "sconti_categ_escluse"
-        _description = "Dettaglio Fasce di Sconto Per Fatturato Partner"    
+class sconti_categ_incluse(osv.osv):
+        _name = "sconti_categ_incluse"
+        _description = "Dettaglio Categorie Incluse dal Calcolo delle Fasce di Sconto"    
         _columns = {
                     'name': fields.many2one('sconti_partner', 'Codice Fascia ', required=True, ondelete='cascade', select=True, readonly=True),
                     'categ_id': fields.many2one('product.category', 'Category', required=True),
                     }
-sconti_categ_escluse()
+sconti_categ_incluse()
+
+class sconti_categ(osv.osv):
+        _name = "sconti_categ"
+        _description = "Dettaglio sconti per singola categoria"    
+        _columns = {
+                    'name': fields.many2one('sconti_partner', 'Codice Fascia ', required=True, ondelete='cascade', select=True, readonly=True),
+                    'categ_id': fields.many2one('product.category', 'Category', required=True),
+                    'sconti_riga_cat':fields.char("Sconti Stringa", size=20),
+                    'sconto_cat':fields.float('Sconto Categoria', digits=(9, 3)),
+                    'perc_cat_provv':fields.float('Perc. Provvigione Agente', digits=(9, 3)),
+                    
+                    }
+sconti_categ()
+
 
 class res_partner(osv.osv):
     _inherit='res.partner'
